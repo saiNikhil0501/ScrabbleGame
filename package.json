@@ -1,0 +1,16 @@
+{
+  "name": "Scrabble Game",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "author": "Sai Nikhil Bommisetty",
+  "license": "ISC",
+  "dependencies": {
+    "chalk-animation": "^2.0.2",
+    "express": "^4.18.1",
+    "morgan": "^1.10.0"
+  }
+}
