@@ -77,7 +77,6 @@ class Database {
     }
   }
 
-  // This is a private methods. The # prefix means that they are private.
   async _write(data) {
     await writeFile(this.path, JSON.stringify(data), 'utf8');
   }

@@ -29,10 +29,6 @@ const turnLabel = (playerNumber) => {
 
 /**
  * Returns a input text box DOM element.
- *
- * We also create an event listener to update the player's name in the turn
- * label if the user types in a different name.
- *
  * @param {number} playerNumber the player number
  * @param {HTMLDomElement} turnLabel the label for the current player's turn
  * @returns
@@ -50,11 +46,11 @@ const playerTextBox = (playerNumber, turnLabel) => {
     turnLabel.innerHTML = `<p>It is <strong>${playerName}</strong>'s turn</p>`;
     saveState(`player-${playerNumber}`, playerName);
 
-    // Update the player names array with new player name.
+    // Updates the player names array with new player name.
     playerNames[playerNumber - 1] = playerName;
   });
 
-  // Add the player name to the array of player names.
+  // Adds the player name to the array of player names.
   playerNames[playerNumber - 1] = inputElm.value;
 
   return inputElm;
@@ -93,38 +89,33 @@ const playerView = (playerTextBox, rack) => {
 export const multiPlayerView = (element, racks, turn, reset = false) => {
   const playerCount = racks.length;
 
-  // Clear out the element
   element.innerHTML = '';
 
-  // Clear local storage if reset is true
+  // Clears local storage if reset is true
   if (reset) {
     for (let i = 0; i < playerCount; ++i) {
       removeState(`player-${i + 1}`);
     }
   }
 
-  // Create the div that will hold both player views.
   const multiPlayerViewElm = document.createElement('div');
-
-  // Create the turn label. We do this outside of the loop because it needs to
-  // be accessed by both player text boxes.
   const turnLabelElm = turnLabel(turn + 1);
 
-  // Add the current player's turn label to the multi player view.
+  // Adds the current player's turn label to the multi player view.
   multiPlayerViewElm.appendChild(turnLabelElm);
 
-  // Create each player text box and player view.
+  // Creates each player text box and player view.
   for (let i = 0; i < playerCount; ++i) {
     const playerTextBoxElm = playerTextBox(i + 1, turnLabelElm);
     const playerViewElm = playerView(playerTextBoxElm, racks[i]);
-    // Disable the text box if not current turn.
+    // Disables the text box if not current turn.
     playerTextBoxElm.disabled = i !== turn;
 
-    // Add the player view to the multi player view.
+    // Adds the player view to the multi player view.
     multiPlayerViewElm.appendChild(playerViewElm);
   }
 
-  // Add the multi player view to the element.
+  // Adds the multi player view to the element.
   element.appendChild(multiPlayerViewElm);
 
   return element;

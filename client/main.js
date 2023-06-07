@@ -8,8 +8,6 @@ import {
   topWordAndGameScoreBoard,
 } from './scoreboard.js';
 
-// UI Components
-//  - We grab the DOM elements we need to work with to make our code cleaner.
 const boardGridElement = document.getElementById('board');
 const playersElement = document.getElementById('players');
 const wordElement = document.getElementById('word');
@@ -21,7 +19,7 @@ const resetButtonElement = document.getElementById('reset');
 const helpButtonElement = document.getElementById('help');
 const hintElement = document.getElementById('hint');
 
-// Useful constants
+
 const TILE_COUNT = 7;
 const NUMBER_OF_PLAYERS = 2;
 
@@ -48,11 +46,11 @@ const circularCounter = (end) => {
   };
 };
 
-// Create and render the game.
+// Creates and renders the game.
 const game = new Game();
 game.render(boardGridElement);
 
-// Create the racks.
+// Creates the racks.
 const racks = setUpRacks(game, TILE_COUNT, NUMBER_OF_PLAYERS);
 let nextTurn = circularCounter(NUMBER_OF_PLAYERS);
 let turn = 0;
@@ -60,9 +58,9 @@ let turn = 0;
 // Create and render the multiplayer view and racks.
 multiPlayerView(playersElement, racks, turn);
 
-// This is what happens when we click the play button.
+
 playButtonElement.addEventListener('click', () => {
-  // Get the values from the UI elements.
+  // Gets the values from the UI elements.
   const word = wordElement.value;
   const x = parseInt(xElement.value);
   const y = parseInt(yElement.value);
@@ -71,11 +69,9 @@ playButtonElement.addEventListener('click', () => {
   // Used to record the score of the current move.
   let score = 0;
 
-  // Get the available tiles from the player's rack
+  // Gets the available tiles from the player's rack
   const tiles = racks[turn].getAvailableTiles();
 
-  // Here we define some helper functions to make our code more readable.
-  // Checks if the word is valid / not valid
   const wordIsValid = (w) =>
     utils.canConstructWord(tiles, w) && utils.isValid(w);
 
@@ -94,32 +90,27 @@ playButtonElement.addEventListener('click', () => {
     return playAt(rw, { x, y }, d) === -1;
   };
 
-  // Now, we actually try to play the word if it is valid.
   if (wordIsNotValid(word)) {
     alert(`The word ${word} cannot be constructed.`);
   } else if (wordIsValid(word) && playFails(word, direction)) {
     alert(`The word ${word} cannot be played at that location.`);
   } else {
-    // The play was successful! Let's update the UI.
-
-    // Rerender the board.
+    
     game.render(boardGridElement);
 
-    // Update the player's rack by removing the used tiles.
+    // Updates the player's rack by removing the used tiles.
     const used = utils.constructWord(tiles, word);
     used.forEach((tile) => racks[turn].removeTile(tile));
 
-    // Take more tiles from the bag to fill the rack.
+    // Takes more tiles from the bag to fill the rack.
     racks[turn].takeFromBag(used.length, game);
 
-    // Save and display the word score.
-    // TODO #12: Save the word score and render it to the UI
-
-    // Update the UI for the next player and rerender the players.
+    // Saves and display the word score.
+  
     turn = nextTurn();
     multiPlayerView(playersElement, racks, turn);
 
-    // Clear out UI elements for the next play.
+    // Clears out UI elements for the next play.
     wordElement.value = '';
     xElement.value = '';
     yElement.value = '';
@@ -127,25 +118,23 @@ playButtonElement.addEventListener('click', () => {
   }
 });
 
-// This is what happens when we click the reset button.
 resetButtonElement.addEventListener('click', () => {
-  // Reset the game board.
+  // Resets the game board.
   game.reset();
   game.render(boardGridElement);
 
-  // Reset the racks.
+  // Resets the racks.
   racks.forEach((rack) => rack.reset());
   racks.forEach((rack) => rack.takeFromBag(TILE_COUNT, game));
 
-  // Reset the turn and next turn counter function.
+  // Resets the turn and next turn counter function.
   nextTurn = circularCounter(racks.length);
   turn = 0;
 
-  // Reset the multiplayer view.
+  // Resets the multiplayer view.
   multiPlayerView(playersElement, racks, turn, true);
 });
 
-// This is what happens when we click the help button.
 helpButtonElement.addEventListener('click', () => {
   const tiles = racks[turn].getAvailableTiles();
   const possibilities = utils.bestPossibleWords(tiles);
@@ -156,4 +145,3 @@ helpButtonElement.addEventListener('click', () => {
   hintElement.innerText = hint;
 });
 
-// TODO #13: Handle a click event when "End" button is clicked

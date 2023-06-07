@@ -48,7 +48,7 @@ class Dictionary {
   }
 }
 
-// The one and only dictionary object.
+
 const dictionary = new Dictionary();
 
 export { dictionary };

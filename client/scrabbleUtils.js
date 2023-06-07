@@ -88,7 +88,7 @@ function constructWord(availableTiles, word) {
 }
 
 /**
- * We define the base score of a word the score obtained by adding each letter's
+ * Defines the base score of a word the score obtained by adding each letter's
  * score, without taking board position into account. This function will compute
  * and return the base score of a given word.
  *
@@ -145,11 +145,7 @@ function baseScore(word) {
 function possibleWords(availableTiles) {
   const possibilities = [];
 
-  // Let n be the size of the dictionary, m be the number of tiles in hand. This
-  // implementation is not the fastest, O(nm). We could use permutations which
-  // would execute in O(m!). It would theoretically be faster, since in standard
-  // Scrabble, m is constant and equals 7. This other method would however scale
-  // really bad with many wildcard tiles.
+  // Let n be the size of the dictionary, m be the number of tiles in hand. T
   for (let word of dictionary.getWords()) {
     if (canConstructWord(availableTiles, word)) {
       possibilities.push(word);
@@ -193,16 +189,12 @@ function bestPossibleWords(availableTiles) {
  * @returns {boolean} Returns whether the given word is a valid word.
  */
 function isValid(word) {
-  // if the word has no wildcard, then we just check if it is in the dictionary.
   if (!word.includes('*')) {
     return dictionary.getWords().includes(word);
   }
 
-  // if it does have one or more wildcard, we replace the first one by every
-  // possible character, and recurse.
   for (let i = 0; i < 26; ++i) {
     const letter = String.fromCharCode('a'.charCodeAt(0) + i);
-    // replace only replaces the first occurence of *.
     if (isValid(word.replace('*', letter))) {
       return true;
     }
@@ -211,7 +203,6 @@ function isValid(word) {
   return false;
 }
 
-// This exports our public functions.
 export {
   canConstructWord,
   constructWord,

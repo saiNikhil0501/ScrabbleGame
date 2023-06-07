@@ -4,12 +4,9 @@ function shuffle(array) {
   // Fisher-Yates shuffle, used for random decoder cipher below
   let m = array.length;
 
-  // While there remain elements to shuffle…
+ 
   while (m) {
-    // Pick a remaining element…
     let i = Math.floor(Math.random() * m--);
-
-    // And swap it with the current element.
     let t = array[m];
     array[m] = array[i];
     array[i] = t;
@@ -194,7 +191,6 @@ export class Game {
    * or -1 if the word cannot be placed.
    */
   playAt(word, position, direction) {
-    // We first check if the word can be placed
     if (!this._canBePlacedOnBoard(word, position, direction)) {
       return -1;
     }

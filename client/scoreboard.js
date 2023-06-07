@@ -3,7 +3,6 @@ class WordScoreBoard {
     this.words = [];
   }
 
-  // TODO #8: Save the word score to the server
   async saveWordScore(name, word, score) {
     this.words.push({ name, word, score });
     await fetch('/wordScore', {
@@ -50,7 +49,6 @@ class GameScoreBoard {
     element.innerHTML = html;
   }
 
-  // TODO #9: Save the game score to the server
   async saveGameScore(name, score) {
     this.game.push({ name, score });
     await fetch('/gameScore', {
@@ -61,7 +59,6 @@ class GameScoreBoard {
 }
 
 class TopWordAndGameScoreBoard {
-  // TODO #10: Render the top word and game scores
   async render(element) {
     const response = await fetch('/highestWordScores');
     const wordScores = await response.json();
